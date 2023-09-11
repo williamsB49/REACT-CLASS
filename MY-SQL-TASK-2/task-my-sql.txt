@@ -1,0 +1,97 @@
+
+CREATE DATABASE guvi_zen_class;
+
+USE guvi_zen_class;
+
+CREATE TABLE mentors(
+	mentor_id INT NOT NULL, 
+    mentor_name VARCHAR(50) NOT NULL,
+    email_id VARCHAR(50) NOT NULL,
+    PRIMARY KEY (mentor_id)
+    );
+
+CREATE TABLE users(
+	user_id INT NOT NULL, 
+    user_name VARCHAR(50) NOT NULL,
+    email_id VARCHAR(50) NOT NULL,
+    batch_id INT,
+    mentor_id INT,
+    PRIMARY KEY (user_id),
+    FOREIGN KEY (mentor_id) REFERENCES mentors(mentor_id)
+    );
+    
+CREATE TABLE codekata(
+	problem_id INT NOT NULL, 
+    catagory_name VARCHAR(50) NOT NULL,
+    problem_description VARCHAR(50) NOT NULL,
+    PRIMARY KEY (problem_id)
+    );
+    
+CREATE TABLE user_codekata_status(
+	user_id INT NOT NULL, 
+    problem_id INT NOT NULL,
+    problem_status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (problem_id) REFERENCES codekata(problem_id)
+    );
+
+CREATE TABLE topics(
+	topic_id INT NOT NULL, 
+    topic_name VARCHAR(50) NOT NULL,
+    topic_description VARCHAR(50) NOT NULL,
+    topic_date DATE,
+    PRIMARY KEY (topic_id)
+    );
+
+CREATE TABLE attendance(
+	user_id INT NOT NULL, 
+    topic_id INT NOT NULL,
+    attendance_status VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (topic_id) REFERENCES topics(topic_id)
+    );
+    
+CREATE TABLE tasks(
+	task_id INT NOT NULL, 
+    task_name VARCHAR(50) NOT NULL,
+    task_description VARCHAR(50) NOT NULL,
+    PRIMARY KEY (task_id)
+    );
+
+ CREATE TABLE user_submitted_task(
+	user_id INT NOT NULL, 
+    task_id INT NOT NULL,
+    task_status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (task_id) REFERENCES tasks(task_id)
+    );   
+
+CREATE TABLE company_drives(
+	company_drive_id INT NOT NULL, 
+    company_name VARCHAR(50) NOT NULL,
+    interview_date DATE NOT NULL,
+    PRIMARY KEY (company_drive_id)
+    );
+    
+ CREATE TABLE user_attended_drives(
+	user_id INT NOT NULL, 
+    company_drive_id INT NOT NULL,
+    interview_status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (company_drive_id) REFERENCES company_drives(company_drive_id)
+    );
+    
+CREATE TABLE courses(
+	course_id INT NOT NULL, 
+    course_name VARCHAR(50) NOT NULL,
+    course_description VARCHAR(50) NOT NULL,
+    PRIMARY KEY (course_id)
+    );
+
+ CREATE TABLE students_activated_courses(
+	user_id INT NOT NULL, 
+    course_id INT NOT NULL,
+    course_status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+    );  
