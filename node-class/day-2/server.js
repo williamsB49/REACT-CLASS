@@ -35,6 +35,18 @@ app.get("/createfile",(req,res)=>{
         res.send(`file create sucessfully ${filepath}`)
     })
 })
+app.get("/getFiles", (req, res) => {
+    fs.readdir(outputFolder, (err, files) => {
+      if (err) {
+        res.status(500).send(`Error reading directory: ${err}`);
+        return;
+      }
+      console.log("files", files);
+      const textFiles = files.filter((file) => path.extname(file) === ".txt");
+  
+      res.json(textFiles);
+    });
+  });
 app.listen(PORT,()=>{
     console.log("the server is working",PORT)
 });
